@@ -28,7 +28,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group([ 'middleware' => 'api'] , function ($router){
     Route::post('register', [AuthController::class, 'register']);
     Route::post('login' , [AuthController::class , 'login']);
-    Route::post('user-profile' , [AuthController::class , 'profile']);
+    Route::get('user-profile' , [AuthController::class , 'profile']);
     Route::delete('deleteUser/{id}' , [AuthController::class , 'destroy']);
     Route::put('updateUser/{id}' , [AuthController::class , 'update']);
     Route::post('logout' , [AuthController::class , 'logout']);

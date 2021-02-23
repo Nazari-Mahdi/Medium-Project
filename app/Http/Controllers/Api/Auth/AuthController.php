@@ -71,7 +71,9 @@ class AuthController extends Controller
 
     public function profile(){      //  Showing Authenticated User
 
-        return Auth::user();
+        $user  = Auth::user();
+
+        return [ 'User' => $user->posts , 'Posts' => $user->posts];
 
     }
 

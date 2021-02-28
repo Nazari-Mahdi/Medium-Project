@@ -25,6 +25,7 @@ class AuthController extends Controller
             'name' => 'required|max:55',
             'email' => 'required|unique:users',
             'password' => 'required|confirmed',
+            'image' => 'required'
         ]);
 
         if ($request->hasFile('image')){

@@ -18,7 +18,11 @@ class CreatePostsTable extends Migration
             $table->bigInteger('user_id')->unsigned()->index();
             $table->string('title');
             $table->text('description');
-            $table->string('image');
+            $table->longText('image');
+            $table->longText('user_image');
+            $table->string('user_name');
+            $table->string('user_email');
+            $table->string('date');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

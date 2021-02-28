@@ -38,6 +38,12 @@ class PostController extends Controller
 
             $createData['image'] = $image ;
         }
+        if ($request->hasFile('user_image')){
+            $image = $request['user_image']->store('post-user-image');
+
+            $createData['user_image'] = $image ;
+        }
+
 
         $post = Post::create($createData);
 

@@ -24,7 +24,7 @@ class PostController extends Controller
 
         $post = Post::findOrFail($id);
 
-        return $post->user->image;
+        return response(['Post' => $post]);
     }
 
 
@@ -52,7 +52,9 @@ class PostController extends Controller
 
 
 
-    public function update(UpdatePostRequest  $request , Post $post){      //    Updating Post
+    public function update(UpdatePostRequest  $request , $id){      //    Updating Post
+
+        $post = Post::findOrFail($id);
 
         $updateData = $request->all();
 
@@ -63,6 +65,7 @@ class PostController extends Controller
             $post->deleteImage();
             $updateData['image'] = $image;
         }
+
 
         $post->update($updateData);
 

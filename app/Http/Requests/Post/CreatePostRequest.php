@@ -26,7 +26,7 @@ class CreatePostRequest extends FormRequest
         return [
             'title' => 'required',
             'description' => 'required',
-            'user_id' => 'required'
+            'user_id' => 'required',
         ];
     }
 }

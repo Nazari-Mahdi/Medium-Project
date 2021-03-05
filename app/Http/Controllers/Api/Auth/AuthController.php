@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api\Auth;
 
+use http\Env\Response;
+use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -21,33 +23,38 @@ class AuthController extends Controller
 
     public function register(Request $request){        //    Create User Function
 
-        $registerData = $request->validate([
-            'name' => 'required|max:55',
-            'email' => 'required|unique:users',
-            'password' => 'required|confirmed',
-            'image' => 'required'
+        $registerData = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6|confirmed',
         ]);
+
+        if($registerData->fails()){
+            return response()->json($registerData->errors(), 400);
+        }
 
         if ($request->hasFile('image')){
             $image = $request['image']->store('user-photo');
-
-            $registerData['image'] = $image;
         }
-
         if ($request->has('role_id')){
-            $registerData['role_id'] = $request['role_id'];
+            $role = $request['role_id'];
         }
 
-        $registerData['password'] = bcrypt($request['password']);
+        $user = User::create([
+            'name' => $request->get('name'),
+            'email' => $request->get('email'),
+            'password' => Hash::make($request->get('password')),
+            'image' => $image,
+            'role_id' => $role
 
-        $user = User::create($registerData);
+        ]);
 
         $accessToken = $user->createToken('authToken')->accessToken;
 
-
         return response()->json(['Message' => 'User Created Successfully' , 'user' => $user , 'Access_Token' => $accessToken]);
-
     }
+
+
 
 
 
